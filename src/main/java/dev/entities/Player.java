@@ -13,29 +13,36 @@ public class Player extends  Entity {
     GamePanel gamePanel;
     KeyHandler keyHandler;
 
+    public final int screenX;
+    public final int screenY;
+
     public Player(GamePanel gamePanel, KeyHandler keyHandler){
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
+
+        screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize / 2);
+        screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize / 2);
+
         this.setDefaultValues();
         this.getPlayerImage();
     }
 
     public void setDefaultValues(){
-        x = 100;
-        y = 100;
-        speed = 2;
+        worldX = 100;
+        worldY = 100;
+        speed = 5;
     }
 
     public void getPlayerImage(){
         try{
-            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player-up-1.png")));
-            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player-up-2.png")));
-            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player-down-1.png")));
-            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player-down-2.png")));
-            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player-left-1.png")));
-            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player-left-2.png")));
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player-right-1.png")));
-            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player-right-2.png")));
+            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/player/player-up-1.png")));
+            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/player/player-up-2.png")));
+            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/player/player-down-1.png")));
+            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/player/player-down-2.png")));
+            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/player/player-left-1.png")));
+            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/player/player-left-2.png")));
+            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/player/player-right-1.png")));
+            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/player/player-right-2.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -44,19 +51,19 @@ public class Player extends  Entity {
     public void update(){
         if(keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
             if(keyHandler.upPressed){
-                y -= speed;
+                worldY -= speed;
                 direction = Direction.UP;
             }
             else if(keyHandler.downPressed){
-                y += speed;
+                worldY += speed;
                 direction = Direction.DOWN;
             }
             else if(keyHandler.leftPressed){
-                x -= speed;
+                worldX -= speed;
                 direction = Direction.LEFT;
             }
             else if(keyHandler.rightPressed){
-                x += speed;
+                worldX += speed;
                 direction = Direction.RIGHT;
             }
 
@@ -104,6 +111,6 @@ public class Player extends  Entity {
                 }
                 break;
         };
-        graphics2D.drawImage(image, x, y, gamePanel.tileSize, gamePanel.tileSize, null);
+        graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
     }
 }
