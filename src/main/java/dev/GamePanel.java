@@ -10,13 +10,13 @@ public class GamePanel extends JPanel implements Runnable {
     final int originalTileSize = 16;
     final int scale = 3;
 
-    public final int tileSize = originalTileSize * scale;
+    public int tileSize = originalTileSize * scale;
 
     //SCREEN SETTINGS
-    public final int maxScreenCol = 16;
-    public final int maxScreenRow = 12;
-    public final int screenWidth = maxScreenCol * tileSize;
-    public final int screenHeight = maxScreenRow * tileSize;
+    public int maxScreenCol = 16;
+    public int maxScreenRow = 12;
+    public int screenWidth = maxScreenCol * tileSize;
+    public int screenHeight = maxScreenRow * tileSize;
 
     //WORLD SETTINGS
     public final int maxWorldCol = 20;
@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     int FPS = 60;
 
-    KeyHandler keyHandler = new KeyHandler();
+    KeyHandler keyHandler = new KeyHandler(this);
     Thread gameTread;
     TileManager tileManager = new TileManager(this);
     public Player player = new Player(this, keyHandler);
@@ -37,6 +37,20 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+    }
+
+    public void zoomInOut(int number){
+        int oldWorldWidth = tileSize * maxWorldCol;
+
+        if(tileSize <= 1 || tileSize >= 100) return;
+        tileSize += number;
+        int newWorldWidth = tileSize * maxWorldCol;
+
+        double multiplier = (double) newWorldWidth / oldWorldWidth;
+
+        player.speed *= multiplier;
+        player.worldX *= multiplier;
+        player.worldY *= multiplier;
     }
 
     public void startGameThread(){
@@ -85,7 +99,6 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics graphics){
         super.paintComponent(graphics);
         Graphics2D graphics2D = (Graphics2D) graphics;
-
         tileManager.draw(graphics2D);
         player.draw(graphics2D);
         graphics2D.dispose();

@@ -19,9 +19,7 @@ public class TileManager {
         this.gamePanel = gamePanel;
         tiles = new Tile[10];
         mapTileNumbers = new int[gamePanel.maxWorldRow][gamePanel.maxWorldCol];
-        System.out.println("Генерируем карту");
         loadMap("/maps/map.txt");
-        System.out.println("Загружаем текстуры");
         getTileImage();
     }
 
@@ -70,14 +68,14 @@ public class TileManager {
                 int tileNumber = mapTileNumbers[y][x];
                 int worldX = x * gamePanel.tileSize;
                 int worldY = y * gamePanel.tileSize;
-                int screenX = worldX - gamePanel.player.worldX + gamePanel.player.screenX;
-                int screenY = worldY - gamePanel.player.worldY + gamePanel.player.screenY;
+                double screenX = worldX - gamePanel.player.worldX + gamePanel.player.screenX;
+                double screenY = worldY - gamePanel.player.worldY + gamePanel.player.screenY;
 
                 if(worldX > gamePanel.player.worldX - gamePanel.player.screenX - gamePanel.tileSize &&
                 worldX < gamePanel.player.worldX + gamePanel.player.screenX + gamePanel.tileSize &&
                 worldY > gamePanel.player.worldY - gamePanel.player.screenY - gamePanel.tileSize &&
                 worldY < gamePanel.player.worldY + gamePanel.player.screenY + gamePanel.tileSize){
-                    graphics2D.drawImage(tiles[tileNumber].image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+                    graphics2D.drawImage(tiles[tileNumber].image, (int)screenX, (int)screenY, gamePanel.tileSize, gamePanel.tileSize, null);
                 }
             }
 

@@ -4,7 +4,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    public boolean upPressed, downPressed, leftPressed, rightPressed, QPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed;
+    public boolean QPressed, CPressed, VPressed;
+
+    public GamePanel gamePanel;
+
+    public KeyHandler(GamePanel gamePanel){
+        this.gamePanel = gamePanel;
+    }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -31,6 +39,14 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_Q -> {
                 QPressed = true;
             }
+            case KeyEvent.VK_C -> {
+                CPressed = true;
+                gamePanel.zoomInOut(1);
+            }
+            case KeyEvent.VK_V -> {
+                VPressed = true;
+                gamePanel.zoomInOut(-1);
+            }
         }
     }
 
@@ -53,6 +69,12 @@ public class KeyHandler implements KeyListener {
             }
             case KeyEvent.VK_Q -> {
                 QPressed = false;
+            }
+            case KeyEvent.VK_C -> {
+                CPressed = false;
+            }
+            case KeyEvent.VK_V -> {
+                VPressed = false;
             }
         }
     }
